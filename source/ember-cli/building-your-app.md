@@ -10,7 +10,7 @@ ember help generate
 
 ## ES6 modules and imports
 
-When you're not using the built-in generators, make sure you're always importing any module you're using. This includes importing `Ember` from the 'ember' module and `DS` from the 'ember-data' packages.
+Ember uses [ES6 modules](http://eviltrout.com/2014/05/03/getting-started-with-es6.html) to organize your application's code. When you're not using the built-in generators, make sure you're always importing any module you're using. This includes importing `Ember` from the 'ember' module and `DS` from the 'ember-data' packages.
 
 ```bash
 import Ember from 'ember';
