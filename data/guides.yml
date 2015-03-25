@@ -10,6 +10,8 @@
   chapters:
     - title: "Installing Ember"
       url: "index"
+    - title: "Building your app"
+      url: "building-your-app"
     - title: "Glossary"
       url: "glossary"
 
