@@ -57,7 +57,7 @@ the Route's model hook.
 ```js
 App.PostRoute = Ember.Route.extend({
   model: function(params) {
-    return this.store.findOne('post', {slug: params.post_slug});
+    return this.store.findOne('post', { slug: params.post_slug });
   }
 });
 ```
@@ -93,7 +93,7 @@ App.PostRoute = Ember.Route.extend({
 ```
 
 Now using we can use the same `link-to` code as above and the
-records's slug property will be correctly serialize the `:post_slug`
+record's slug property will be correctly serialize the `:post_slug`
 param in the anchor tag's href.
 
 

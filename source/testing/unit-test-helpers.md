@@ -39,21 +39,21 @@ By including [Ember-QUnit], you will have access to a number of test helpers.
  - **fullName**: The full name of the unit, (ie. `controller:application`,
     `route:index`, etc.)
  - **description**: the description of the module
- - **callbacks**: normal QUnit callbacks (setup and teardown), with addition to
+ - **callbacks**: normal QUnit callbacks (beforeEach and afterEach), with addition to
     needs, which allows you specify the other units the tests will need.
 
 * `moduleForComponent(name [, description [, callbacks]])`
  - **name**: the short name of the component that you'd use in a template, (ie.
     `x-foo`, `ic-tabs`, etc.)
  - **description**: the description of the module
- - **callbacks**: normal QUnit callbacks (setup and teardown), with addition to
+ - **callbacks**: normal QUnit callbacks (beforeEach and afterEach), with addition to
     needs, which allows you specify the other units the tests will need.
 
 * `moduleForModel(name [, description [, callbacks]])`
  - **name**: the short name of the model you'd use in store
     operations (ie. `user`, `assignmentGroup`, etc.)
  - **description**: the description of the module
- - **callbacks**: normal QUnit callbacks (setup and teardown), with addition to
+ - **callbacks**: normal QUnit callbacks (beforeEach and afterEach), with addition to
     needs, which allows you specify the other units the tests will need.
 
 * `test`
@@ -79,20 +79,7 @@ completing all async behaviour are suspended to give you a chance to set up
 state and make assertions in a known state. In other words, you know that if you
 run "visit" to get to a particular URL, you can be sure the URL has been visited
 and that's the only behaviour that has transpired. If we didn't use this mode,
-our assertions would most likely be executed before the async behaviour had taken place, so
-our assertion results would be unpredictable.
-
-With a module-based application, you have access to the unit test helpers simply
-by requiring the exports of the module. However, if you are testing a global
-Ember application, you are still able to use the unit test helpers. Instead of
-importing the `ember-qunit` module, you need to make the unit test helpers
-global with `emq.globalize()`:
-
-```javascript
-emq.globalize();
-```
-
-This will make the above helpers available globally.
+our assertions would most likely be executed before the async behaviour had taken place, so our assertion results would be unpredictable.
 
 ### The Resolver
 

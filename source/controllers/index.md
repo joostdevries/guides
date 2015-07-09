@@ -19,20 +19,20 @@ Your template would bind to these properties in the `blog-post`
 template:
 
 ```app/templates/blog-post.hbs
-<h1>{{title}}</h1>
-<h2>by {{author}}</h2>
+<h1>{{model.title}}</h1>
+<h2>by {{model.author}}</h2>
 
 <div class='intro'>
-  {{intro}}
+  {{model.intro}}
 </div>
 <hr>
 <div class='body'>
-  {{body}}
+  {{model.body}}
 </div>
 ```
 
 In this simple example, we don't have any display-specific properties
-or actions just yet. For now, our controller just acts as a
+or actions just yet. For now, our controller's `model` property just acts as a
 pass-through (or "proxy") for the model properties. (Remember that
 a controller gets the model it represents from its route handler.)
 
@@ -42,18 +42,18 @@ first modify our template to show the body only if the value of a
 new `isExpanded` property is true.
 
 ```app/templates/blog-post.hbs
-<h1>{{title}}</h1>
-<h2>by {{author}}</h2>
+<h1>{{model.title}}</h1>
+<h2>by {{model.author}}</h2>
 
 <div class='intro'>
-  {{intro}}
+  {{model.intro}}
 </div>
 <hr>
 
 {{#if isExpanded}}
   <button {{action 'toggleProperty' 'isExpanded'}}>Hide Body</button>
   <div class='body'>
-    {{body}}
+    {{model.body}}
   </div>
 {{else}}
   <button {{action 'toggleProperty' 'isExpanded'}}>Show Body</button>
@@ -76,8 +76,8 @@ decorate a model.
 
 This means that templates _know about_ controllers and controllers
 _know about_ models, but the reverse is not true. A model knows
-nothing about which (if any) controllers are decorating it, and
-controller does not know which views are presenting its properties.
+nothing about which (if any) controllers are decorating it, and a
+controller does not know which templates are presenting its properties.
 
 <figure>
 <img src="../images/controller-guide/objects.png">
@@ -90,7 +90,7 @@ about the model directly.
 In practice, Ember.js will create a template's controller once for
 the entire application, but the controller's model may change
 throughout the lifetime of the application without requiring that
-the view knows anything about those mechanics.
+the template know anything about those mechanics.
 
 For example, if the user navigates from `/posts/1` to `/posts/2`,
 the `PostController` will change its model from `Post.find(1)` to
@@ -110,15 +110,10 @@ makes it easy to separate display-specific properties from model
 specific properties, and to swap out the controller's model as the
 user navigates around the page.
 
-For convenience, Ember.js provides controllers that _proxy_
-properties from their models so that you can say `{{name}}` in your
-template rather than `{{model.name}}`. An `Ember.ArrayController`
-proxies properties from an Array, and an `Ember.ObjectController`
-proxies properties from an object.
-
-If your controller is an `ArrayController`, you can iterate directly
-over the controller using `{{#each item in controller}}`. This keeps the
-template from having to know about how the controller is implemented
+For convenience, Ember.js provides an `Ember.ArrayController` that proxies
+properties from an Array. If your controller is an `ArrayController`, you can
+iterate over the model using `{{#each model as |item|}}`. This
+keeps the template from having to know about how the controller is implemented
 and makes isolation testing and refactoring easier.
 
 ### Storing Application Properties

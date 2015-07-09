@@ -56,7 +56,7 @@ var peters = this.store.find('person', { name: "Peter" }); // => GET to /persons
 As discussed in [Specifying a Route's Model][3], routes are
 responsible for telling their template which model to render.
 
-[3]: /guides/routing/specifying-a-routes-model
+[3]: ../../routing/specifying-a-routes-model
 
 `Ember.Route`'s `model` hook supports asynchronous values
 out-of-the-box. If you return a promise from the `model` hook, the
@@ -70,9 +70,9 @@ Ember deal with figuring out whether a network request is needed or not.
 ```app/router.js
 var Router = Ember.Router.extend({});
 
-App.Router.map(function() {
-  this.resource('posts');
-  this.resource('post', { path: ':post_id' });
+Router.map(function() {
+  this.route('posts');
+  this.route('post', { path: ':post_id' });
 });
 
 export default Router;
@@ -81,7 +81,7 @@ export default Router;
 ```app/routes/posts.js
 export default Ember.Route.extend({
   model: function() {
-    return this.store.find('post');
+    return this.store.findAll('post');
   }
 });
 ```

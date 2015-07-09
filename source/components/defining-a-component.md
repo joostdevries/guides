@@ -2,9 +2,8 @@ To define a component, create a template whose name starts with
 `components/`. To define a new component, `{{blog-post}}` for example,
 create a `components/blog-post` template.
 
-**Note:** Components must have a dash in their name. So `blog-post` is an acceptable name,
-but `post` is not. This prevents clashes with current or future HTML element names, and
-ensures Ember picks up the components automatically.
+**Note:** Components must have at least one dash in their name. So `blog-post` is an acceptable name, so is `audio-player-controls`, but `post` is not. This prevents clashes with current or future HTML element names, and
+ensures Ember detects the components automatically.
 
 A sample component template would look like this:
 
@@ -20,9 +19,9 @@ component of the same name. Given the above template, you can now use the
 <!--- <a class="jsbin-embed" href="http://jsbin.com/tikenoniku/1/edit?output">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script> -->
 <!--- The example above uses `<script>` tags to work inside of JSBin.-->
 ```app/templates/index.hbs
-{{#each}}
-  {{#blog-post title=title}}
-    {{body}}
+{{#each model as |post|}}
+  {{#blog-post title=post.title}}
+    {{post.body}}
   {{/blog-post}}
 {{/each}}
 ```
@@ -53,7 +52,6 @@ export default Ember.Route.extend({
 
 ```app/components/blog-post.js
 export default Ember.Component.extend({
-  
 });
 ```
 
@@ -78,28 +76,8 @@ need a custom subclass if you wanted to change a component's element,
 respond to actions from the component's template, or manually make
 changes to the component's element using JavaScript.
 
-Ember knows which subclass powers a component based on its name. For
+Ember knows which subclass powers a component based on its filename. For
 example, if you have a component called `blog-post`, you would create a
 file at `app/components/blog-post.js`. If your component was called
-`audio-player-controls`, the file name would be at 
-`app/components/audio-player-controls.js`
-
-In other words, Ember will look for a class with the camelized name of
-the component, followed by `Component`.
-
-<table>
-  <thead>
-  <tr>
-    <th>Component Name</th>
-    <th>Component Class</th>
-  </tr>
-  </thead>
-  <tr>
-    <td><code>blog-post</code></td>
-    <td><code>App.BlogPostComponent</code></td>
-  </tr>
-  <tr>
-    <td><code>audio-player-controls</code></td>
-    <td><code>App.AudioPlayerControlsComponent</code></td>
-  </tr>
-</table>
+`audio-player-controls`, the file name would be at
+`app/components/audio-player-controls.js`.

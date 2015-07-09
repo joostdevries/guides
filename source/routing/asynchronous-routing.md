@@ -67,7 +67,7 @@ arrays, the transition will complete immediately. But if the `model` hook
 if a promise was provided as an argument to `transitionTo`), the transition
 will pause until that promise fulfills or rejects.
 
-**Note:** The router considers any object with a `then` method
+The router considers any object with a `then` method
 defined on it to be a promise.
 
 If the promise fulfills, the transition will pick up where it left off and
@@ -242,4 +242,4 @@ model for this route, so `model` wouldn't be called in these cases.
 ### More Resources
 
 - [Embercasts: Client-side Authentication Part 2](http://www.embercasts.com/episodes/client-side-authentication-part-2)
-- [RC6 Blog Post describing these new features](/blog/2013/06/23/ember-1-0-rc6.html)
+- [RC6 Blog Post describing these new features](http://emberjs.com/blog/2013/06/23/ember-1-0-rc6.html)

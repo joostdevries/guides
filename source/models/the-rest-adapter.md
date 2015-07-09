@@ -94,15 +94,15 @@ be nested inside a property called `person`:
 }
 ```
 
-_Note: Although after `destroyRecord` or `deleteRecord`/`save` the adapter expects an empty object e.g. `{}` to be returned from the server after destroying a record._
+After `destroyRecord` or after `deleteRecord` and `save`, the adapter expects the server to return an empty object (`{}`).
 
 If you don't have the option to change the data that the server responds with, you can override the 
 [DS.JSONSerializer#extractDeleteRecord](http://emberjs.com/api/data/classes/DS.JSONSerializer.html#method_extractDeleteRecord), like so:
 
 ```js
 extractDeleteRecord: function(store, type, payload) {
-  // payload is {delete: true} and then ember data wants to go ahead and set
-  // the new properties, return null so it doesn't try to do that
+  // If the payload is {delete: true}, Ember Data will try to set
+  // the new properties. Return null so it doesn't try to do that.
   return null;
 }
 ```
@@ -163,7 +163,7 @@ have a model with a `hasMany` relationship:
 
 ```app/models/post.js
 export default DS.Model.extend({
-  comments: DS.hasMany('comment', {async: true})
+  comments: DS.hasMany('comment', { async: true })
 });
 ```
 
@@ -177,12 +177,31 @@ The JSON should encode the relationship as an array of IDs:
 }
 ```
 
-`Comments` for a `post` can be loaded by `post.get('comments')`. The REST adapter
-will send a `GET` request to `/comments?ids[]=1&ids[]=2&ids[]=3`.
+`Comments` for a `post` can be loaded by `post.get('comments')`. The REST
+adapter will send a `GET` request for each related comment.
+
+```js
+post.get('comments');
+
+// GET /comments/1
+// GET /comments/2
+// GET /comments/3
+```
+
+You may prevent sending multiple requests by setting [coalesceFindRequests](http://emberjs.com/api/data/classes/DS.RESTAdapter.html#property_coalesceFindRequests)
+to `true` in your adapter.
+
+```app/adapters/application.js
+export default DS.RESTAdapter.extend({
+  coalesceFindRequests: true
+});
+```
+
+The REST adapter will now send a `GET` request to `/comments?ids[]=1&ids[]=2&ids[]=3`.
 
 Any `belongsTo` relationships in the JSON representation should be the
-camelized version of the Ember Data model's name, with the string
-`Id` appended. For example, if you have a model:
+camelized version of the Ember Data model's name. For example, if you have
+a model:
 
 ```app/models/comment.js
 export default DS.Model.extend({
@@ -280,7 +299,7 @@ expected to be an array:
 But once loaded on a model instance, it will behave as an object:
 
 ```js
-var cursor = App.Cursor.find(1);
+var cursor = this.store.find('cursor', 1);
 cursor.get('position.x'); //=> 4
 cursor.get('position.y'); //=> 9
 ```

@@ -23,7 +23,10 @@ application.
 ```
 
 ```app/controllers/post.js
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
+  intro: Ember.computed.alias('model.intro'),
+  body: Ember.computed.alias('model.body'),
+
   // initial value
   isExpanded: false,
 
@@ -115,7 +118,7 @@ When an action is triggered, but no matching action handler is
 implemented on the controller, the current route, or any of the
 current route's ancestors, an error will be thrown.
 
-![Action Bubbling](/images/template-guide/action-bubbling.png)
+![Action Bubbling](../../images/template-guide/action-bubbling.png)
 
 This allows you to create a button that has different behavior based on
 where you are in the application. For example, you might want to have a
@@ -139,7 +142,7 @@ The controller's `select` action handler would be called with a single argument
 containing the post model:
 
 ```app/controllers/post.js
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
   actions: {
     select: function(post) {
       console.log(post.get('title'));
@@ -165,7 +168,7 @@ You can specify an alternative event by using the `on` option.
 You should use the normalized event names [listed in the View guide][1].
 In general, two-word event names (like `keypress`) become `keyPress`.
 
-[1]: /guides/understanding-ember/the-view-layer/#toc_adding-new-events
+[1]: http://emberjs.com/api/classes/Ember.View.html#toc_event-names
 
 ### Specifying Whitelisted Modifier Keys
 
@@ -174,13 +177,16 @@ pressed modifier keys. You can supply an `allowedKeys` option
 to specify which keys should not be ignored.
 
 ```handlebars
-<div {{action 'anActionName' allowedKeys="alt"}}>
+<button {{action 'anActionName' allowedKeys="alt"}}>
   click me
-</div>
+</button>
 ```
 
 This way the `{{action}}` will fire when clicking with the alt key
 pressed down.
+
+### Default Event
+By default, `event.preventDefault()` is called on all events handled by `{{action}}` helpers. To avoid this you can add `preventDefault=false` as a parameter. 
 
 ### Stopping Event Propagation
 
@@ -206,41 +212,32 @@ to the link.
 With `bubbles=false`, Ember.js will stop the browser from propagating
 the event.
 
-### Specifying a Target
+### Handling an Action
 
-By default, the `{{action}}` helper will send the action to the view's
-target, which is generally the view's controller. (Note: in the case of
-an Ember.Component, the default target is the component itself.)
+The `{{action}}` helper sends the action from a component's template to
+the component.
 
-You can specify an alternative target by using the `target` option. This
-is most commonly used to send actions to a view instead of a controller.
+You can handle the action by adding an `actions` hash to your component
+that contains a method with the name of the action.
 
-```handlebars
-<p>
-  <button {{action "select" post target=view}}>✓</button>
-  {{post.title}}
-</p>
+For example, given this template that adds the `select` action to a
+button:
+
+```app/templates/component/show-posts.hbs
+<button {{action "selectPost" model}}>Select Post</button>
 ```
 
-You would handle this in an `actions` hash on your view.
+You can implement a function that responds to the button being clicked
+by adding an `actions` hash to your component with a method called
+`select`:
 
-```app/views/posts.js
-export default Ember.View.extend({
+
+```app/components/show-posts.js
+export default Ember.Component.extend({
   actions: {
-    select: function(post) {
+    select(post) {
       // do your business.
     }
   }
 });
-```
-
-Note that actions sent to views in this way do not bubble up the
-currently rendered view hierarchy. If you want to handle the action in
-a parent view, use the following:
-
-```handlebars
-<p>
-  <button {{action "select" post target=view.parentView}}>✓</button>
-  {{post.title}}
-</p>
 ```

@@ -32,7 +32,7 @@ baz.offsetHeight // read (recalculate style, layout, expensive!)
 
 In this example, the sequence of code forced the browser to recalculate style,
 and relayout after each step. However, if we were able to batch similar jobs together,
-the browser would have only needed to recalulate the style and layout once.
+the browser would have only needed to recalculate the style and layout once.
 
 
 ```javascript
@@ -70,7 +70,7 @@ and a template to display its attributes:
 If we execute the following code without the run loop:
 
 ```javascript
-var user = User.create({firstName:'Tom', lastName:'Huda'});
+var user = User.create({ firstName: 'Tom', lastName: 'Huda' });
 user.set('firstName', 'Yehuda');
 // {{firstName}} and {{fullName}} are updated
 
@@ -91,7 +91,7 @@ user.set('lastName', 'Katz');
 However, if we have the run loop in the above code, the browser will only rerender the template once the attributes have all been set.
 
 ```javascript
-var user = User.create({firstName:'Tom', lastName:'Huda'});
+var user = User.create({ firstName: 'Tom', lastName: 'Huda' });
 user.set('firstName', 'Yehuda');
 user.set('lastName', 'Katz');
 user.set('firstName', 'Tom');

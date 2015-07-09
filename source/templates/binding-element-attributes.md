@@ -6,7 +6,7 @@ to an image:
 
 ```handlebars
 <div id="logo">
-  <img {{bind-attr src=logoUrl}} alt="Logo">
+  <img src={{logoUrl}} alt="Logo">
 </div>
 ```
 
@@ -18,11 +18,11 @@ This generates the following HTML:
 </div>
 ```
 
-If you use `{{bind-attr}}` with a Boolean value, it will add or remove
+If you use data binding with a Boolean value, it will add or remove
 the specified attribute. For example, given this template:
 
 ```handlebars
-<input type="checkbox" {{bind-attr disabled=isAdministrator}}>
+<input type="checkbox" disabled={{isAdministrator}}>
 ```
 
 If `isAdministrator` is `true`, Handlebars will produce the following
@@ -38,7 +38,7 @@ If `isAdministrator` is `false`, Handlebars will produce the following:
 <input type="checkbox">
 ```
 
-### Adding data attributes
+### Adding Data Attributes
 
 By default, view helpers do not accept *data attributes*. For example
 
@@ -53,7 +53,8 @@ renders the following HTML:
 ```html
 <a id="ember239" class="ember-view" href="#/photos">Photos</a>
 
-<input id="ember257" class="ember-view ember-text-field" type="text" title="Name">
+<input id="ember257" class="ember-view ember-text-field" type="text" 
+       title="Name">
 ```
 
 There are two ways to enable support for data attributes. One way would be to add an
@@ -88,7 +89,7 @@ export default Ember.View.reopen({
     var self = this;
 
     // bind attributes beginning with 'data-'
-    Em.keys(this).forEach(function(key) {
+    Ember.keys(this).forEach(function(key) {
       if (key.substr(0, 5) === 'data-') {
         self.get('attributeBindings').pushObject(key);
       }

@@ -67,8 +67,8 @@ properties that combine or transform primitive attributes.
 
 ```app/models/person.js
 export default DS.Model.extend({
-  firstName: attr(),
-  lastName: attr(),
+  firstName: DS.attr(),
+  lastName: DS.attr(),
 
   fullName: function() {
     return this.get('firstName') + ' ' + this.get('lastName');
@@ -100,6 +100,7 @@ attribute types, and new types can be registered as transforms. See the
 [ISO 8601]: http://en.wikipedia.org/wiki/ISO_8601
 
 #### Options
+
 `DS.attr` takes an optional hash as a second parameter:
 
 - `defaultValue`: Pass a string or a function to be called to set the
@@ -167,6 +168,7 @@ To declare a many-to-many relationship between two models, use
 export default DS.Model.extend({
   tags: DS.hasMany('tag')
 });
+```
 
 ```app/models/tag.js
 export default DS.Model.extend({
@@ -213,8 +215,8 @@ other side, set the inverse to null.
 
 ```app/models/folder.js
 export default DS.Model.extend({
-  children: DS.hasMany('folder', {inverse: 'parent'}),
-  parent: DS.belongsTo('folder', {inverse: 'children'})
+  children: DS.hasMany('folder', { inverse: 'parent' }),
+  parent: DS.belongsTo('folder', { inverse: 'children' })
 });
 ```
 
@@ -222,6 +224,6 @@ or
 
 ```app/models/folder.js
 export default DS.Model.extend({
-  parent: belongsTo('folder', {inverse: null})
+  parent: DS.belongsTo('folder', { inverse: null })
 });
 ```

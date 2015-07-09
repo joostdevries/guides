@@ -1,5 +1,5 @@
 One of the major issues in testing web applications is that all code is
-event-driven, therefore has the potential to be asynchronous (ie output can
+event-driven, therefore has the potential to be asynchronous (i.e. output can
 happen out of sequence from input). This has the ramification that code can be
 executed in any order.
 
@@ -27,8 +27,7 @@ Asynchronous helpers are "aware" of (and wait for) asynchronous behavior within
 your application, making it much easier to write deterministic tests.
 
 Also, these helpers register themselves in the order that you call them and will
-be run in a chain; each one is only called after the previous one finishes, in a
-chain. You can rest assured, therefore, that the order you call them in will also
+be run in a chain; each one is only called after the previous one finishes. You can rest assured, therefore, that the order you call them in will also
 be their execution order, and that the previous helper has finished before the
 next one starts.
 
@@ -38,7 +37,7 @@ next one starts.
     is complete.
 * `fillIn(selector, text)`
   - Fills in the selected input with the given text and returns a promise that
-     fulfills when all resulting async behavior is complete.
+     fulfills when all resulting async behavior is complete. Works with `<select>` elements as well as `<input>` elements.
 * `keyEvent(selector, type, keyCode)`
   - Simulates a key event type, e.g. `keypress`, `keydown`, `keyup` with the
     desired keyCode on element found by the selector.
@@ -86,7 +85,7 @@ test('simple test', function(assert) {
 });
 ```
 
-First we tell QUnit that this test should have one assertion made by the end 
+First we tell QUnit that this test should have one assertion made by the end
 of the test by calling `assert.expect` with an argument of `1`. We then visit the new
 posts URL "/posts/new", enter the text "My new post" into an input control
 with the CSS class "title", and click on a button whose class is "submit".
@@ -123,7 +122,7 @@ previous async helper has completed and any subsequent async helper will wait
 for it to finish before running.
 
 The helper method will always be called with the current Application as the
-first parameter and `assert` as the second one. Helpers need to be registered prior to calling
+first parameter. Other parameters need to be provided when calling the helper. Helpers need to be registered prior to calling
 `startApp`, but ember-cli will take care of it for you.
 
 Here is an example of a non-async helper:
@@ -168,7 +167,11 @@ export default Ember.Test.registerAsyncHelper('addContact',
   }
 );
 
-Finally, don't forget to add your helpers in `tests/.jshintrc` and in 
+// addContact("Bob");
+// addContact("Dan");
+```
+
+Finally, don't forget to add your helpers in `tests/.jshintrc` and in
 `tests/helpers/start-app.js`. In `tests/.jshintrc` you need to add it in the
 `predef` section, otherwise you will get failing jshint tests:
 
@@ -198,9 +201,5 @@ import config from '../../config/environment';
 import shouldHaveElementWithCount from "./should-have-element-with-count";
 import dblclick from "./dblclick";
 import addContact from "./add-contact";
-```
-
-// addContact("Bob");
-// addContact("Dan");
 ```
 

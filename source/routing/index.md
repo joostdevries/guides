@@ -18,7 +18,7 @@ route handlers for the URLs, answering them is both simple and accurate.
 At any given time, your application has one or more _active route
 handlers_. The active handlers can change for one of two reasons:
 
-1. The user interacted with a view, which generated an event that caused
+1. The user interacted with a component, which generated an event that caused
    the URL to change.
 2. The user changed the URL manually (e.g., via the back button), or the
    page was loaded for the first time.
@@ -33,21 +33,21 @@ or more of the following:
 
 ###Logging Route Changes
 
-As your application increases in complexity, it can be helpful to see exactly what is going on with the router. To have Ember write out transition events to the log, simply modify your `config/environment.js`:
+As your application increases in complexity, it can be helpful to see exactly what is going on with the router. To have Ember write out transition events to the log modify your project configuration:
 
-```javascript
+```config/environment.js
 ENV.APP.LOG_TRANSITIONS = true;
 ```
 
 ###Specifying a Root URL
 If your Ember application is one of multiple web applications served from the same domain, it may be necessary to indicate to the router what the root URL for your Ember application is. By default, Ember will assume it is served from the root of your domain.
 
-If for example, you wanted to serve your blogging application from `emberjs.com/blog/`, it would be necessary to specify a root URL of `/blog/`.
+For example, if you wanted to serve your blogging application from `http://emberjs.com/blog/`, it would be necessary to specify a root URL of `/blog/`.
 
-This can be achieved by setting the rootURL on the router:
+This can be achieved by setting the `rootURL` on the router:
 
-```js
-Router.reopen({
+```app/router.js
+Ember.Router.extend({
   rootURL: '/blog/'
 });
 ```
